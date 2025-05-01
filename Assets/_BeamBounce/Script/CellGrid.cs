@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class CellGrid : MonoBehaviour
 {
+    private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
     [SerializeField] private bool isOccupied = false;
     [SerializeField] private bool isEnergized = false;
+    [SerializeField] private bool hasEnergySource = false;
 
     [Header("Position Offsets")] [SerializeField]
     private float yOffset = 0f; // Adjustable Y offset for placed objects
@@ -20,6 +22,7 @@ public class CellGrid : MonoBehaviour
     [SerializeField] private Color energizedColor;
     [SerializeField] private float energizedColorIntensity = 1.5f;
     private Material cellPlateMaterial;
+    private DraggeableObject placedObject;
 
     /// <summary>
     /// Checks if this grid cell is available for a draggable object
@@ -46,6 +49,7 @@ public class CellGrid : MonoBehaviour
             draggableObject.transform.localPosition = new Vector3(0f, yOffset, zOffset);
 
             isOccupied = true;
+            placedObject = draggableObject;
             SetColor(draggableObject);
             OnGunPlaced(draggableObject);
         }
@@ -57,7 +61,19 @@ public class CellGrid : MonoBehaviour
     public void RemoveObject()
     {
         isOccupied = false;
-        SetColor();
+        if(isEnergized)
+            ChangeToEnergizedColor();
+        else
+            SetColor();
+
+        if (hasEnergySource)
+        {
+            hasEnergySource = false;
+            ChangeToDefaultColor();
+            DrainAdjacentCells();
+        }
+        if(placedObject.GetType() == DraggableType.Gun)
+            OnGunRemoved();
     }
 
     /// <summary>
@@ -107,7 +123,7 @@ public class CellGrid : MonoBehaviour
 
     private void OnMouseExit()
     {
-        SetColor();
+       // SetColor();
     }
     
     private void Start()
@@ -121,13 +137,14 @@ public class CellGrid : MonoBehaviour
         {
             if (placedObject.GetType() == DraggableType.Energizer)
             {
+                hasEnergySource = true;
                 ChangeToEnergizedColor();
                 EnergizeAdjacentCells();
             }
             else
             {
                 if(!isEnergized)
-                    cellPlateMaterial.SetColor("_BaseColor",occupiedColor);
+                    cellPlateMaterial.SetColor(BaseColor,occupiedColor);
             }
         }
         else
@@ -140,9 +157,45 @@ public class CellGrid : MonoBehaviour
     public void ChangeToEnergizedColor()
     {
         isEnergized = true;
-        cellPlateMaterial.SetColor("_BaseColor", energizedColor * energizedColorIntensity);
+        cellPlateMaterial.SetColor(BaseColor, energizedColor * energizedColorIntensity);
+        OnGunPlaced(placedObject);
     }
     
+    public void ChangeToDefaultColor()
+    {
+        isEnergized = false;
+        cellPlateMaterial.color = defaultColor;
+        OnGunPlaced(placedObject);
+    }
+
+
+    private void DrainAdjacentCells()
+    {
+        Vector3 currentPos = transform.position;
+        float cellSize = 1f; // Adjust this value based on your grid cell size
+    
+        // Check adjacent cells (up, down, left, right)
+        Vector3[] adjacentPositions = new Vector3[]
+        {
+            currentPos + Vector3.forward * cellSize,  // Forward
+            currentPos - Vector3.forward * cellSize,  // Back
+            currentPos + Vector3.right * cellSize,    // Right
+            currentPos - Vector3.right * cellSize     // Left
+        };
+    
+        foreach (Vector3 pos in adjacentPositions)
+        {
+            Collider[] hitColliders = Physics.OverlapSphere(pos, 0.1f);
+            foreach (var hitCollider in hitColliders)
+            {
+                CellGrid adjacentCell = hitCollider.GetComponent<CellGrid>();
+                if (adjacentCell != null)
+                {
+                    adjacentCell.ChangeToDefaultColor();
+                }
+            }
+        }
+    }
     private void EnergizeAdjacentCells()
     {
         Vector3 currentPos = transform.position;
@@ -173,7 +226,17 @@ public class CellGrid : MonoBehaviour
 
     private void OnGunPlaced(DraggeableObject placedObject)
     {
+        if(placedObject == null) return;
+        Debug.Log("Gun beam Logic");
         if(placedObject.GetType() == DraggableType.Gun && isEnergized)
             placedObject.GetComponent<Laser>().EnableBeam();
+        else if (placedObject.GetType() == DraggableType.Gun && !isEnergized)
+            placedObject.GetComponent<Laser>().DisableBeam();
+    }
+
+    private void OnGunRemoved()
+    {
+        if(placedObject == null) return;
+        placedObject.GetComponent<Laser>().DisableBeam();
     }
 }

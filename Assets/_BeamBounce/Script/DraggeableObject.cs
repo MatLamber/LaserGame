@@ -13,7 +13,7 @@ public class DraggeableObject : MonoBehaviour
     [Header("Drag Settings")] [SerializeField]
     private float smoothSpeed = 10.0f; // Velocidad de suavizado
 
-    [SerializeField] private LayerMask dragPlane; // Capa para el plano de arrastre
+   // [SerializeField] private LayerMask dragPlane; // Capa para el plano de arrastre
     [SerializeField] private LayerMask gridCellLayer; // Capa para las celdas del grid
     [SerializeField] private DraggableType draggableType;
 
@@ -116,7 +116,7 @@ public class DraggeableObject : MonoBehaviour
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
         // Proyectar el rayo en un plano para obtener la posición 3D
-        if (Physics.Raycast(ray, out RaycastHit hit, float.MaxValue, dragPlane))
+        if (Physics.Raycast(ray, out RaycastHit hit, float.MaxValue/*, dragPlane*/))
         {
             return hit.point;
         }

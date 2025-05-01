@@ -326,7 +326,7 @@ MonoBehaviour:
   defaultColor: {r: 0, g: 0, b: 0, a: 0.20784314}
   occupiedColor: {r: 1, g: 0.85882354, b: 0.1764706, a: 1}
   energizedColor: {r: 0.023584902, g: 0.97939855, b: 1, a: 1}
-  energizedColorIntensity: 1.5
+  energizedColorIntensity: 1.4
 --- !u!65 &107495651
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -705,7 +705,7 @@ MonoBehaviour:
   defaultColor: {r: 0, g: 0, b: 0, a: 0.20784314}
   occupiedColor: {r: 1, g: 0.85882354, b: 0.1764706, a: 1}
   energizedColor: {r: 0.023584902, g: 0.97939855, b: 1, a: 1}
-  energizedColorIntensity: 1.5
+  energizedColorIntensity: 1.4
 --- !u!65 &160125816
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1136,7 +1136,7 @@ MonoBehaviour:
   defaultColor: {r: 0, g: 0, b: 0, a: 0.20784314}
   occupiedColor: {r: 1, g: 0.85882354, b: 0.1764706, a: 1}
   energizedColor: {r: 0.023584902, g: 0.97939855, b: 1, a: 1}
-  energizedColorIntensity: 1.5
+  energizedColorIntensity: 1.4
 --- !u!65 &240476725
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1437,7 +1437,7 @@ MonoBehaviour:
   defaultColor: {r: 0, g: 0, b: 0, a: 0.20784314}
   occupiedColor: {r: 1, g: 0.85882354, b: 0.1764706, a: 1}
   energizedColor: {r: 0.023584902, g: 0.97939855, b: 1, a: 1}
-  energizedColorIntensity: 1.5
+  energizedColorIntensity: 1.4
 --- !u!65 &421910687
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1680,7 +1680,7 @@ MonoBehaviour:
   defaultColor: {r: 0, g: 0, b: 0, a: 0.20784314}
   occupiedColor: {r: 1, g: 0.85882354, b: 0.1764706, a: 1}
   energizedColor: {r: 0.023584902, g: 0.97939855, b: 1, a: 1}
-  energizedColorIntensity: 1.5
+  energizedColorIntensity: 1.4
 --- !u!65 &499455018
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1945,7 +1945,7 @@ MonoBehaviour:
   defaultColor: {r: 0, g: 0, b: 0, a: 0.20784314}
   occupiedColor: {r: 1, g: 0.85882354, b: 0.1764706, a: 1}
   energizedColor: {r: 0.023584902, g: 0.97939855, b: 1, a: 1}
-  energizedColorIntensity: 1.5
+  energizedColorIntensity: 1.4
 --- !u!65 &579017198
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2021,7 +2021,7 @@ MonoBehaviour:
   defaultColor: {r: 0, g: 0, b: 0, a: 0.20784314}
   occupiedColor: {r: 1, g: 0.85882354, b: 0.1764706, a: 1}
   energizedColor: {r: 0.023584902, g: 0.97939855, b: 1, a: 1}
-  energizedColorIntensity: 1.5
+  energizedColorIntensity: 1.4
 --- !u!65 &619569428
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2187,7 +2187,7 @@ MonoBehaviour:
   defaultColor: {r: 0, g: 0, b: 0, a: 0.20784314}
   occupiedColor: {r: 1, g: 0.85882354, b: 0.1764706, a: 1}
   energizedColor: {r: 0.023584902, g: 0.97939855, b: 1, a: 1}
-  energizedColorIntensity: 1.5
+  energizedColorIntensity: 1.4
 --- !u!65 &669878712
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2711,7 +2711,7 @@ MonoBehaviour:
   defaultColor: {r: 0, g: 0, b: 0, a: 0.20784314}
   occupiedColor: {r: 1, g: 0.85882354, b: 0.1764706, a: 1}
   energizedColor: {r: 0.023584902, g: 0.97939855, b: 1, a: 1}
-  energizedColorIntensity: 1.5
+  energizedColorIntensity: 1.4
 --- !u!65 &904245157
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2870,7 +2870,7 @@ MonoBehaviour:
   defaultColor: {r: 0, g: 0, b: 0, a: 0.20784314}
   occupiedColor: {r: 1, g: 0.85882354, b: 0.1764706, a: 1}
   energizedColor: {r: 0.023584902, g: 0.97939855, b: 1, a: 1}
-  energizedColorIntensity: 1.5
+  energizedColorIntensity: 1.4
 --- !u!65 &975985740
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3145,7 +3145,7 @@ MonoBehaviour:
   defaultColor: {r: 0, g: 0, b: 0, a: 0.20784314}
   occupiedColor: {r: 1, g: 0.85882354, b: 0.1764706, a: 1}
   energizedColor: {r: 0.023584902, g: 0.97939855, b: 1, a: 1}
-  energizedColorIntensity: 1.5
+  energizedColorIntensity: 1.4
 --- !u!65 &1149872822
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3226,7 +3226,7 @@ MonoBehaviour:
   defaultColor: {r: 0, g: 0, b: 0, a: 0.20784314}
   occupiedColor: {r: 1, g: 0.85882354, b: 0.1764706, a: 1}
   energizedColor: {r: 0.023584902, g: 0.97939855, b: 1, a: 1}
-  energizedColorIntensity: 1.5
+  energizedColorIntensity: 1.4
 --- !u!65 &1232100152
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3574,7 +3574,7 @@ MonoBehaviour:
   defaultColor: {r: 0, g: 0, b: 0, a: 0.20784314}
   occupiedColor: {r: 1, g: 0.85882354, b: 0.1764706, a: 1}
   energizedColor: {r: 0.023584902, g: 0.97939855, b: 1, a: 1}
-  energizedColorIntensity: 1.5
+  energizedColorIntensity: 1.4
 --- !u!65 &1283744221
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3650,7 +3650,7 @@ MonoBehaviour:
   defaultColor: {r: 0, g: 0, b: 0, a: 0.20784314}
   occupiedColor: {r: 1, g: 0.85882354, b: 0.1764706, a: 1}
   energizedColor: {r: 0.023584902, g: 0.97939855, b: 1, a: 1}
-  energizedColorIntensity: 1.5
+  energizedColorIntensity: 1.4
 --- !u!65 &1338702069
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3809,7 +3809,7 @@ MonoBehaviour:
   defaultColor: {r: 0, g: 0, b: 0, a: 0.20784314}
   occupiedColor: {r: 1, g: 0.85882354, b: 0.1764706, a: 1}
   energizedColor: {r: 0.023584902, g: 0.97939855, b: 1, a: 1}
-  energizedColorIntensity: 1.5
+  energizedColorIntensity: 1.4
 --- !u!65 &1450047307
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4087,7 +4087,7 @@ MonoBehaviour:
   defaultColor: {r: 0, g: 0, b: 0, a: 0.20784314}
   occupiedColor: {r: 1, g: 0.85882354, b: 0.1764706, a: 1}
   energizedColor: {r: 0.023584902, g: 0.97939855, b: 1, a: 1}
-  energizedColorIntensity: 1.5
+  energizedColorIntensity: 1.4
 --- !u!65 &1599603769
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4163,7 +4163,7 @@ MonoBehaviour:
   defaultColor: {r: 0, g: 0, b: 0, a: 0.20784314}
   occupiedColor: {r: 1, g: 0.85882354, b: 0.1764706, a: 1}
   energizedColor: {r: 0.023584902, g: 0.97939855, b: 1, a: 1}
-  energizedColorIntensity: 1.5
+  energizedColorIntensity: 1.4
 --- !u!65 &1634076844
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4239,7 +4239,7 @@ MonoBehaviour:
   defaultColor: {r: 0, g: 0, b: 0, a: 0.20784314}
   occupiedColor: {r: 1, g: 0.85882354, b: 0.1764706, a: 1}
   energizedColor: {r: 0.023584902, g: 0.97939855, b: 1, a: 1}
-  energizedColorIntensity: 1.5
+  energizedColorIntensity: 1.4
 --- !u!65 &1649647430
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4429,7 +4429,7 @@ MonoBehaviour:
   defaultColor: {r: 0, g: 0, b: 0, a: 0.20784314}
   occupiedColor: {r: 1, g: 0.85882354, b: 0.1764706, a: 1}
   energizedColor: {r: 0.023584902, g: 0.97939855, b: 1, a: 1}
-  energizedColorIntensity: 1.5
+  energizedColorIntensity: 1.4
 --- !u!65 &1766363463
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4588,7 +4588,7 @@ MonoBehaviour:
   defaultColor: {r: 0, g: 0, b: 0, a: 0.20784314}
   occupiedColor: {r: 1, g: 0.85882354, b: 0.1764706, a: 1}
   energizedColor: {r: 0.023584902, g: 0.97939855, b: 1, a: 1}
-  energizedColorIntensity: 1.5
+  energizedColorIntensity: 1.4
 --- !u!65 &1887254032
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4680,6 +4680,81 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5489832371421162527, guid: 4710c9c9db1b0c143978d6019a956c5a, type: 3}
   m_PrefabInstance: {fileID: 8123185042140299898}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2027182403
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2027182404}
+  - component: {fileID: 2027182406}
+  - component: {fileID: 2027182405}
+  m_Layer: 0
+  m_Name: Energizer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2027182404
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2027182403}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.937, y: -2.66, z: -7.271}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3306196539221091983}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2027182405
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2027182403}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1.0000001, z: 1.0000001}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2027182406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2027182403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afcb44615205dfa45a0fed21a1b89a05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smoothSpeed: 10
+  dragPlane:
+    serializedVersion: 2
+    m_Bits: 0
+  gridCellLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  draggableType: 0
 --- !u!1 &2064059244
 GameObject:
   m_ObjectHideFlags: 0
@@ -4813,8 +4888,6 @@ GameObject:
   - component: {fileID: 3306196539221091983}
   - component: {fileID: 1895491701991614762}
   - component: {fileID: 4443598044817645024}
-  - component: {fileID: 5350967498811539357}
-  - component: {fileID: 5350967498811539358}
   m_Layer: 0
   m_Name: Cube_Small_Blue
   m_TagString: Untagged
@@ -4830,12 +4903,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2786083922169461813}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.937, y: -2.66, z: -7.271}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2027182404}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &4443598044817645024
 MeshRenderer:
@@ -4884,47 +4957,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4149140191395053975, guid: 4710c9c9db1b0c143978d6019a956c5a, type: 3}
   m_PrefabInstance: {fileID: 8123185042140299898}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &5350967498811539357
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2786083922169461813}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1.0000001, z: 1.0000001}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5350967498811539358
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2786083922169461813}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afcb44615205dfa45a0fed21a1b89a05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  smoothSpeed: 10
-  dragPlane:
-    serializedVersion: 2
-    m_Bits: 0
-  gridCellLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  draggableType: 0
 --- !u!1001 &8123185042140299898
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4995,4 +5027,4 @@ SceneRoots:
   - {fileID: 1276565018}
   - {fileID: 636336023}
   - {fileID: 210136010}
-  - {fileID: 3306196539221091983}
+  - {fileID: 2027182404}

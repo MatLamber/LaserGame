@@ -252,4 +252,9 @@ public class Laser : MonoBehaviour
     {
         enableBeam = true;
     }
+
+    public void DisableBeam()
+    {
+        enableBeam = false;
+    }
 }
