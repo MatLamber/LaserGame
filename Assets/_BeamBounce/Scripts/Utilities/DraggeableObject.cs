@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using MoreMountains.Feedbacks;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -17,6 +18,9 @@ public class DraggeableObject : MonoBehaviour
    // [SerializeField] private LayerMask dragPlane; // Capa para el plano de arrastre
     [SerializeField] private LayerMask gridCellLayer; // Capa para las celdas del grid
     [SerializeField] private DraggableType draggableType;
+
+    [SerializeField] private MMF_Player pickedUpFeedback;
+    [SerializeField] private MMF_Player putDownFeedback;
 
     private Camera mainCamera;
     private Vector3 dragOffset;
@@ -49,17 +53,20 @@ public class DraggeableObject : MonoBehaviour
 
         // Guardar la posición Y original
         originalY = transform.position.y;
-        transform.position = new Vector3(transform.position.x, originalY + 1f, transform.position.z);
-        persistentY = transform.position.y;
+        LeanTween.moveY(gameObject, originalY + 1f, 0.3f).setEaseOutQuad();
+        persistentY = originalY + 1f;
 
         // Calcular el offset entre la posición del mouse y el objeto
         Vector3 mousePosition = GetMouseWorldPosition();
         dragOffset = transform.position - mousePosition;
+        pickedUpFeedback?.PlayFeedbacks();
     }
 
     private void OnMouseUp()
     {
         isDragging = false;
+        LeanTween.cancel(gameObject);
+        putDownFeedback?.PlayFeedbacks();
         // Si teníamos una celda resaltada, restaurar su apariencia normal
         if (lastHighlightedCell != null)
         {
@@ -87,6 +94,7 @@ public class DraggeableObject : MonoBehaviour
             transform.SetParent(originalParent);
             transform.localPosition = Vector3.zero;
         }
+
     }
 
     private void Update()
