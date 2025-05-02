@@ -21,5 +21,7 @@ public class EventsManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-   /// public event Action 
+    public event Action<bool> ActionOnDragging;
+    
+    public void OnDragging(bool isDragging) => ActionOnDragging?.Invoke(isDragging);
 }

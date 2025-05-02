@@ -21,10 +21,13 @@ public class CellGrid : MonoBehaviour
     [SerializeField] private Color defaultColor;
     [SerializeField] private Color occupiedColor;
     [SerializeField] private Color energizedColor;
+    [SerializeField] private Color highlightedColor;
     //[SerializeField] private float energizedColorIntensity = 1.5f;
     private Material cellPlateMaterial;
     private DraggeableObject placedObject;
      [SerializeField] float energizedColorIntensity;
+
+     private bool isDraggin;
 
     /// <summary>
     /// Checks if this grid cell is available for a draggable object
@@ -96,23 +99,20 @@ public class CellGrid : MonoBehaviour
         placedObject = null;
     }
     
-    // Optional: visual feedback when the mouse hovers over the cell
-    private void OnMouseEnter()
-    {
-        if (IsCellFree())
-        {
-            // You could add visual feedback here (e.g., highlight the cell)
-        }
-    }
-
-    private void OnMouseExit()
-    {
-       // SetColor();
-    }
-    
     private void Start()
     {
         cellPlateMaterial = cellPlate.GetComponent<Renderer>().material;
+    }
+
+
+    private void OnEnable()
+    {
+        //EventsManager.Instance.ActionOnDragging += CheckIfDraggin;
+    }
+    
+    private void OnDisable()
+    {
+       // EventsManager.Instance.ActionOnDragging -= CheckIfDraggin;
     }
 
     private void SetColor(DraggeableObject placedObject = null)
@@ -131,7 +131,7 @@ public class CellGrid : MonoBehaviour
         }
         else
         {
-            ChangeToDefaultColor();
+            ResetToDefaultColor();
         }
     }
 
@@ -144,7 +144,7 @@ public class CellGrid : MonoBehaviour
         OnGunPlaced(placedObject);
     }
     
-    public void ChangeToDefaultColor()
+    public void ResetToDefaultColor()
     {
         isEnergized = false;
         cellPlateMaterial.SetColor(EmissionColor, defaultColor * energizedColorIntensity);
@@ -156,6 +156,18 @@ public class CellGrid : MonoBehaviour
         isEnergized = false;
         OnGunPlaced(placedObject);
         cellPlateMaterial.SetColor(EmissionColor, occupiedColor);
+    }
+    
+    public void ChangeToHighlightedColor()
+    {
+        if(!isEnergized && !isOccupied)
+            cellPlateMaterial.SetColor(EmissionColor, highlightedColor);
+    }
+
+    public void ChangeToDefaultColor()
+    {
+        if(!isEnergized && !isOccupied)
+            cellPlateMaterial.SetColor(EmissionColor, defaultColor * energizedColorIntensity);
     }
 
 
@@ -184,7 +196,7 @@ public class CellGrid : MonoBehaviour
                     if(adjacentCell.isOccupied)
                         adjacentCell.ChangeToOccupiedColor();
                     else
-                        adjacentCell.ChangeToDefaultColor();
+                        adjacentCell.ResetToDefaultColor();
                 }
             }
         }
@@ -218,6 +230,11 @@ public class CellGrid : MonoBehaviour
         }
     }
 
+    private void CheckIfDraggin(bool dragginCheck)
+    {
+        isDraggin = dragginCheck;
+    }
+
     private void OnGunPlaced(DraggeableObject placedObject)
     {
         if(placedObject == null || placedObject.GetType() != DraggableType.Gun ) return;
@@ -232,7 +249,7 @@ public class CellGrid : MonoBehaviour
         if(placedObject == null) return;
         placedObject.GetComponent<Laser>().DisableBeam();
         if(!isEnergized)
-            ChangeToDefaultColor();
+            ResetToDefaultColor();
     }
     private void OnEnergizerPlaced()
     {
@@ -245,7 +262,7 @@ public class CellGrid : MonoBehaviour
         if (hasEnergySource)
         {
             hasEnergySource = false;
-            ChangeToDefaultColor();
+            ResetToDefaultColor();
             DrainAdjacentCells();
         }
     }
@@ -259,6 +276,6 @@ public class CellGrid : MonoBehaviour
     private void OnGridWeaponRemoved()
     {
         if(!isEnergized)
-            ChangeToDefaultColor();
+            ResetToDefaultColor();
     }
 }

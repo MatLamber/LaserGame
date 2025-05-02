@@ -24,6 +24,8 @@ public class DraggeableObject : MonoBehaviour
     private float originalY; // Almacena la posición Y original
     private CellGrid currentCell; // La celda actual donde está el objeto
     private Transform originalParent; // El padre original del objeto
+    private CellGrid lastHighlightedCell;
+    private float persistentY;
 
     private void Awake()
     {
@@ -47,6 +49,8 @@ public class DraggeableObject : MonoBehaviour
 
         // Guardar la posición Y original
         originalY = transform.position.y;
+        transform.position = new Vector3(transform.position.x, originalY + 1f, transform.position.z);
+        persistentY = transform.position.y;
 
         // Calcular el offset entre la posición del mouse y el objeto
         Vector3 mousePosition = GetMouseWorldPosition();
@@ -56,6 +60,12 @@ public class DraggeableObject : MonoBehaviour
     private void OnMouseUp()
     {
         isDragging = false;
+        // Si teníamos una celda resaltada, restaurar su apariencia normal
+        if (lastHighlightedCell != null)
+        {
+            lastHighlightedCell.ChangeToDefaultColor(); // Asumiendo que tienes este método
+            lastHighlightedCell = null;
+        }
 
         // Verificar si hay una celda de grid debajo
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -88,7 +98,7 @@ public class DraggeableObject : MonoBehaviour
             Vector3 targetPosition = mousePosition + dragOffset;
 
             // Mantener la Y original
-            targetPosition.y = originalY;
+            targetPosition.y = persistentY;
 
             // Mover el objeto suavemente hacia la posición objetivo
             transform.position = Vector3.Lerp(transform.position, targetPosition, smoothSpeed * Time.deltaTime);
@@ -101,15 +111,53 @@ public class DraggeableObject : MonoBehaviour
     private void HighlightCellUnderMouse()
     {
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        CellGrid currentHighlightedCell = null;
+    
         if (Physics.Raycast(ray, out RaycastHit hit, float.MaxValue, gridCellLayer))
         {
-            CellGrid cellGrid = hit.collider.GetComponent<CellGrid>();
-            if (cellGrid != null)
+            currentHighlightedCell = hit.collider.GetComponent<CellGrid>();
+            if (currentHighlightedCell != null)
             {
-                // Aquí podrías implementar lógica para resaltar visualmente la celda
+                // Resaltar la nueva celda
+                currentHighlightedCell.ChangeToHighlightedColor();
             }
         }
+    
+        // Verificar si abandonamos una celda
+        if (lastHighlightedCell != null && lastHighlightedCell != currentHighlightedCell)
+        {
+            // Aquí manejas el evento de "dejar de estar sobre la celda"
+            OnCellExited(lastHighlightedCell);
+        
+            // Puedes también restaurar el color normal si tu clase CellGrid tiene un método para eso
+            // lastHighlightedCell.RestoreOriginalColor();
+        }
+    
+        // Verificar si entramos en una nueva celda
+        if (currentHighlightedCell != null && lastHighlightedCell != currentHighlightedCell)
+        {
+            // Aquí manejas el evento de "entrar en una nueva celda"
+            OnCellEntered(currentHighlightedCell);
+        }
+    
+        // Actualizar referencia
+        lastHighlightedCell = currentHighlightedCell;
     }
+    
+    private void OnCellExited(CellGrid cell)
+    {
+
+        // Aquí puedes añadir cualquier lógica que necesites cuando el objeto deja una celda
+        // Por ejemplo, restaurar el color original de la celda
+        cell.ChangeToDefaultColor(); // Asumiendo que tienes este método en tu clase CellGrid
+    }
+
+    private void OnCellEntered(CellGrid cell)
+    {
+        cell.ChangeToHighlightedColor();
+        // Lógica adicional al entrar en una celda si es necesario
+    }
+
 
     private Vector3 GetMouseWorldPosition()
     {
