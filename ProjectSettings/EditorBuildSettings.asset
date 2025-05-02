@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_BeamBounce/Scenes/2D Laser 1.unity
-    guid: ea40972ecc592434489893edd5b027a9
+    path: Assets/_BeamBounce/Scenes/Test.unity
+    guid: 90c474ae5f10d8a41bb6cee6bab17ebe
   m_configObjects: {}
