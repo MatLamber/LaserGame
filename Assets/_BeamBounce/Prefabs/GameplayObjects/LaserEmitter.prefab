@@ -1160,7 +1160,7 @@ MonoBehaviour:
   secondaryLineRenderer: {fileID: 2870006458460568978}
   firePoint: {fileID: 4980461388214168314}
   startVFX: {fileID: 2537295344752864354}
-  endVFX: {fileID: 1467301864643505423}
+  endVFX: {fileID: 6192977512173467944}
   secondaryLineOffset: 0.1
   laserPrefab: {fileID: 4588980295540826827}
   fireDirection: 0
@@ -1172,6 +1172,9 @@ MonoBehaviour:
   ignoreLayers:
     serializedVersion: 2
     m_Bits: 512
+  connectorLayer:
+    serializedVersion: 2
+    m_Bits: 1024
   showDebugRays: 0
   enableBeam: 0
 --- !u!65 &7587273815482515196
@@ -2378,11 +2381,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 23ca53904826ca740b3e9b5c5e24e9b2, type: 3}
---- !u!1 &1467301864643505423 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6212333971197843394, guid: 23ca53904826ca740b3e9b5c5e24e9b2, type: 3}
-  m_PrefabInstance: {fileID: 4785711842189048525}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1574859511079654978 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6318908654338878607, guid: 23ca53904826ca740b3e9b5c5e24e9b2, type: 3}
@@ -2406,5 +2404,10 @@ GameObject:
 --- !u!120 &4755437302764892792 stripped
 LineRenderer:
   m_CorrespondingSourceObject: {fileID: 258102213543430325, guid: 23ca53904826ca740b3e9b5c5e24e9b2, type: 3}
+  m_PrefabInstance: {fileID: 4785711842189048525}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6192977512173467944 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1701133246682235877, guid: 23ca53904826ca740b3e9b5c5e24e9b2, type: 3}
   m_PrefabInstance: {fileID: 4785711842189048525}
   m_PrefabAsset: {fileID: 0}

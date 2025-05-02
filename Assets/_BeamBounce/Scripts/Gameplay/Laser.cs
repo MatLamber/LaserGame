@@ -27,6 +27,7 @@ public class Laser : MonoBehaviour
     [Foldout("Laser Settings")] [SerializeField] private float maxRayDistance = 100f; // Distancia máxima del rayo
     [Foldout("Laser Settings")] [SerializeField] private LayerMask reflectiveLayers; // Capas que pueden reflejar el láser
     [Foldout("Laser Settings")] [SerializeField] private LayerMask ignoreLayers; // Capas que serán ignoradas completamente
+    [Foldout("Laser Settings")] [SerializeField] private LayerMask connectorLayer;
     
     [BoxGroup("Testing & Debug")] [SerializeField] private bool showDebugRays = true;
     [BoxGroup("Testing & Debug")] [SerializeField] private bool enableBeam;
@@ -43,7 +44,7 @@ public class Laser : MonoBehaviour
     void Start()
     {
         FillLists();
-        DisableLaser();
+       // DisableLaser();
         primaryLineRenderer.positionCount = maxReflections + 1;
         secondaryLineRenderer.positionCount = maxReflections + 1;
     }
@@ -74,12 +75,21 @@ public class Laser : MonoBehaviour
         primaryLineRenderer.enabled = true;
         secondaryLineRenderer.enabled = true;
 
-        foreach (var t in startVfxps)
+        StartLaserStartVfx();
+        StartLaserEndVfx();
+    }
+
+    private void StartLaserEndVfx()
+    {
+        foreach (var t in endVfxps)
         {
             t.Play();
         }
+    }
 
-        foreach (var t in endVfxps)
+    private void StartLaserStartVfx()
+    {
+        foreach (var t in startVfxps)
         {
             t.Play();
         }
@@ -91,12 +101,21 @@ public class Laser : MonoBehaviour
         primaryLineRenderer.enabled = false;
         secondaryLineRenderer.enabled = false;
 
-        foreach (var t in startVfxps)
+        StopLaserStartVfx();
+        StopLaserEndVfx();
+    }
+
+    private void StopLaserEndVfx()
+    {
+        foreach (var t in endVfxps)
         {
             t.Stop();
         }
+    }
 
-        foreach (var t in endVfxps)
+    private void StopLaserStartVfx()
+    {
+        foreach (var t in startVfxps)
         {
             t.Stop();
         }
@@ -126,7 +145,6 @@ public class Laser : MonoBehaviour
         return direction;
     }
 
-    // Método unificado que incluye la reflexión solo en capas reflectivas y detiene el láser en otras capas
     void UpdateLaserWithDirectionAndReflection()
     {
         Vector3 startPos = firePoint.position;
@@ -146,6 +164,9 @@ public class Laser : MonoBehaviour
         // Calculamos la capa de colisión que incluye todo excepto las capas ignoradas
         int collisionMask = ~ignoreLayers.value;
 
+        // Variable para rastrear si el láser impacta con un connector
+        bool hitConnector = false;
+
         // Calcula los rebotes
         for (int i = 0; i < maxReflections; i++)
         {
@@ -159,6 +180,18 @@ public class Laser : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(currentPos, currentDir, out hit, maxRayDistance, collisionMask))
             {
+                // Verificamos si el objeto golpeado está en la capa connector
+                bool isConnector = ((1 << hit.collider.gameObject.layer) & connectorLayer.value) != 0;
+
+                // Si golpeamos un connector, actualizamos la bandera
+                if (isConnector)
+                {
+                    hitConnector = true;
+                    Debug.Log("hit connector");
+                    // Detener el efecto visual del final cuando impacta con el connector
+                    StopLaserEndVfx();
+                }
+
                 // Verificamos si el objeto golpeado está en una capa reflectiva
                 bool isReflective = ((1 << hit.collider.gameObject.layer) & reflectiveLayers.value) != 0;
 
@@ -199,6 +232,12 @@ public class Laser : MonoBehaviour
         if (laserPositions.Count > 0)
         {
             endVFX.transform.position = laserPositions[laserPositions.Count - 1];
+        }
+
+        // Si no golpeamos un connector, aseguramos que el efecto visual del final esté activo
+        if (!hitConnector)
+        {
+            StartLaserEndVfx();
         }
     }
 
