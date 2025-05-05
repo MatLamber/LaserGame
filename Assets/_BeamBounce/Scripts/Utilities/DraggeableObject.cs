@@ -8,7 +8,8 @@ public enum DraggableType
 {
     Energizer,
     Gun,
-    GridWeapon
+    GridWeapon, 
+    Bouncer
 }
 public class DraggeableObject : MonoBehaviour
 {

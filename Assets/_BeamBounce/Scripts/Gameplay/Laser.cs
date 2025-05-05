@@ -28,6 +28,8 @@ public class Laser : MonoBehaviour
     [Foldout("Laser Settings")] [SerializeField] private LayerMask reflectiveLayers; // Capas que pueden reflejar el láser
     [Foldout("Laser Settings")] [SerializeField] private LayerMask ignoreLayers; // Capas que serán ignoradas completamente
     [Foldout("Laser Settings")] [SerializeField] private LayerMask connectorLayer;
+    [Foldout("Laser Settings")] [SerializeField] private LayerMask enemyLayers; // Nueva capa para identificar enemigos
+    [Foldout("Laser Settings")] [SerializeField] private int laserPower = 10; // Poder del láser (daño por segundo)
     
     [BoxGroup("Testing & Debug")] [SerializeField] private bool showDebugRays = true;
     [BoxGroup("Testing & Debug")] [SerializeField] private bool enableBeam;
@@ -38,6 +40,9 @@ public class Laser : MonoBehaviour
     private List<ParticleSystem> endVfxps = new List<ParticleSystem>();
     private List<ParticleSystem> startVfxps = new List<ParticleSystem>();
     private Connector lastConnectorHit;
+    private Health lastEnemyHit; // Referencia al último enemigo alcanzado
+    private float damageTimer; // Temporizador para aplicar daño por segundo
+    private bool hasAppliedInitialDamage; // Flag para verificar si ya se aplicó el daño inicial
     #endregion
 
 
@@ -46,6 +51,8 @@ public class Laser : MonoBehaviour
         FillLists();
         primaryLineRenderer.positionCount = maxReflections + 1;
         secondaryLineRenderer.positionCount = maxReflections + 1;
+        damageTimer = 0f;
+        hasAppliedInitialDamage = false;
     }
 
     void Update()
@@ -64,6 +71,34 @@ public class Laser : MonoBehaviour
         if (isBeamEnabled)
         {
             UpdateLaserWithDirectionAndReflection();
+            
+            // Aplicar daño a los enemigos
+            if (lastEnemyHit != null)
+            {
+                // Aplicar daño instantáneo en el primer impacto
+                if (!hasAppliedInitialDamage)
+                {
+                    lastEnemyHit.TakeDamage(laserPower);
+                    hasAppliedInitialDamage = true;
+                    damageTimer = 0f; // Reiniciar el temporizador después del primer impacto
+                }
+                // Luego aplicar daño por segundo
+                else
+                {
+                    damageTimer += Time.deltaTime;
+                    if (damageTimer >= 1f)
+                    {
+                        lastEnemyHit.TakeDamage(laserPower);
+                        damageTimer = 0f;
+                    }
+                }
+            }
+            else
+            {
+                // Si ya no golpeamos al enemigo, reiniciar variables
+                damageTimer = 0f;
+                hasAppliedInitialDamage = false;
+            }
         }
     }
 
@@ -76,6 +111,10 @@ public class Laser : MonoBehaviour
 
         StartLaserStartVfx();
         StartLaserEndVfx();
+        
+        // Resetear variables de daño al activar el láser
+        hasAppliedInitialDamage = false;
+        damageTimer = 0f;
     }
 
     private void StartLaserEndVfx()
@@ -102,6 +141,10 @@ public class Laser : MonoBehaviour
 
         StopLaserStartVfx();
         StopLaserEndVfx();
+        
+        // Resetear referencia al enemigo al desactivar el láser
+        lastEnemyHit = null;
+        hasAppliedInitialDamage = false;
     }
 
     private void StopLaserEndVfx()
@@ -165,6 +208,10 @@ public class Laser : MonoBehaviour
 
         // Variable para rastrear si el láser impacta con un connector
         bool hitConnector = false;
+        
+        // Resetear la referencia al enemigo en cada frame
+        Health currentEnemyHit = null;
+        bool hitEnemy = false;
 
         // Calcula los rebotes
         for (int i = 0; i < maxReflections; i++)
@@ -181,6 +228,9 @@ public class Laser : MonoBehaviour
             {
                 // Verificamos si el objeto golpeado está en la capa connector
                 bool isConnector = ((1 << hit.collider.gameObject.layer) & connectorLayer.value) != 0;
+                
+                // Verificamos si el objeto golpeado está en la capa de enemigos
+                bool isEnemy = ((1 << hit.collider.gameObject.layer) & enemyLayers.value) != 0;
 
                 // Si golpeamos un connector, actualizamos la bandera
                 if (isConnector)
@@ -194,7 +244,6 @@ public class Laser : MonoBehaviour
                     hitConnector = true;
                     // Detener el efecto visual del final cuando impacta con el connector
                     StopLaserEndVfx();
-
                 }
                 else
                 {
@@ -205,8 +254,19 @@ public class Laser : MonoBehaviour
                         lastConnectorHit = null;
                     }
                 }
-
-
+                
+                // Si golpeamos un enemigo, obtenemos su componente Health
+                if (isEnemy)
+                {
+                    hitEnemy = true;
+                    currentEnemyHit = hit.collider.gameObject.GetComponent<Health>();
+                    
+                    // Si es un nuevo enemigo (diferente al último), debemos aplicar daño inicial
+                    if (lastEnemyHit != currentEnemyHit)
+                    {
+                        hasAppliedInitialDamage = false;
+                    }
+                }
 
                 // Verificamos si el objeto golpeado está en una capa reflectiva
                 bool isReflective = ((1 << hit.collider.gameObject.layer) & reflectiveLayers.value) != 0;
@@ -260,6 +320,21 @@ public class Laser : MonoBehaviour
         if (!hitConnector)
         {
             StartLaserEndVfx();
+        }
+        
+        // Actualizar la referencia al enemigo golpeado
+        if (!hitEnemy)
+        {
+            // Si perdimos contacto con cualquier enemigo, reseteamos las variables
+            if (lastEnemyHit != null)
+            {
+                lastEnemyHit = null;
+                hasAppliedInitialDamage = false;
+            }
+        }
+        else
+        {
+            lastEnemyHit = currentEnemyHit;
         }
     }
 

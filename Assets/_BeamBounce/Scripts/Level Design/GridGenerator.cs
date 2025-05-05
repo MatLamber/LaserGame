@@ -6,7 +6,8 @@ using UnityEditor;
 
 public class GridGenerator : MonoBehaviour
 {
-    [Header("Grid Configuration")] public int width = 10;
+    [Header("Grid Configuration")] 
+    public int width = 10;
     public int depth = 10; // Cambiado de "height" a "depth" para mejor claridad
 
     [Tooltip("El espacio adicional entre celdas (0 = sin espacio extra)")]
@@ -14,7 +15,15 @@ public class GridGenerator : MonoBehaviour
 
     public GameObject prefab;
 
-    [Header("Grid Offset")] public Vector3 startOffset = Vector3.zero;
+    [Header("Grid Offset")] 
+    public Vector3 startOffset = Vector3.zero;
+
+    [Header("Extra Bottom Row")]
+    [Tooltip("Prefab diferente para la fila extra en la parte inferior")]
+    public GameObject bottomRowPrefab;
+    
+    [Tooltip("Espacio vertical entre la grilla principal y la fila extra")]
+    public float bottomRowSpacing = 1.0f;
 
     [HideInInspector] public List<GameObject> instantiatedObjects = new List<GameObject>();
 
@@ -26,6 +35,13 @@ public class GridGenerator : MonoBehaviour
         {
             Debug.LogError("¡No hay un prefab asignado! Por favor asigna un prefab.");
             return;
+        }
+
+        // Validar que haya un prefab asignado para la fila inferior
+        if (bottomRowPrefab == null)
+        {
+            Debug.LogWarning("¡No hay un prefab asignado para la fila inferior! Se usará el prefab principal.");
+            bottomRowPrefab = prefab;
         }
 
         // Verificar si el prefab tiene un BoxCollider
@@ -100,8 +116,77 @@ public class GridGenerator : MonoBehaviour
                 }
             }
         }
+        
+        // Crear la fila extra en la parte inferior
+        GenerateBottomRow(cellSize);
 
         Debug.Log($"Cuadrícula generada con {instantiatedObjects.Count} elementos. Tamaño de celda: {cellSize}");
+    }
+
+    // Método para generar la fila extra en la parte inferior
+    private void GenerateBottomRow(Vector3 cellSize)
+    {
+        // Obtener el tamaño del prefab de la fila inferior
+        BoxCollider bottomBoxCollider = bottomRowPrefab.GetComponent<BoxCollider>();
+        BoxCollider2D bottomBoxCollider2D = bottomRowPrefab.GetComponent<BoxCollider2D>();
+        
+        Vector3 bottomCellSize = Vector3.one;
+        
+        if (bottomBoxCollider != null)
+        {
+            bottomCellSize = bottomBoxCollider.size;
+            bottomCellSize.x *= bottomRowPrefab.transform.localScale.x;
+            bottomCellSize.y *= bottomRowPrefab.transform.localScale.y;
+            bottomCellSize.z *= bottomRowPrefab.transform.localScale.z;
+        }
+        else if (bottomBoxCollider2D != null)
+        {
+            bottomCellSize = new Vector3(
+                bottomBoxCollider2D.size.x * bottomRowPrefab.transform.localScale.x,
+                bottomBoxCollider2D.size.y * bottomRowPrefab.transform.localScale.y,
+                1f
+            );
+        }
+        
+        // Calcular la posición Z para la fila inferior (después de la última fila de la grilla)
+        // CORRECCIÓN: Colocar la fila extra DEBAJO de la grilla principal
+        // Usamos el valor MÁXIMO de Z (la última fila) + spacing para posicionar la fila extra
+        float lastRowZ = startOffset.z + (depth - 1) * (cellSize.z + spacing);
+        float bottomRowZ = lastRowZ + cellSize.z + bottomRowSpacing;
+        
+        // Crear la fila extra a lo largo del eje X
+        for (int x = 0; x < width; x++)
+        {
+            Vector3 position = new Vector3(
+                startOffset.x + x * (cellSize.x + spacing),
+                startOffset.y,
+                bottomRowZ
+            );
+            
+            // Instanciar el prefab para la fila inferior
+            GameObject instance;
+            
+#if UNITY_EDITOR
+            instance = PrefabUtility.InstantiatePrefab(bottomRowPrefab) as GameObject;
+            if (instance != null)
+            {
+                instance.transform.position = position;
+            }
+#else
+            instance = Instantiate(bottomRowPrefab, position, Quaternion.identity);
+#endif
+
+            if (instance != null)
+            {
+                instance.name = $"{bottomRowPrefab.name}_bottom_{x}";
+                
+                // Hacer al prefab hijo de este objeto
+                instance.transform.SetParent(transform, false);
+                
+                // Guardar la referencia
+                instantiatedObjects.Add(instance);
+            }
+        }
     }
 
     // Esta función limpia todos los objetos de la cuadrícula

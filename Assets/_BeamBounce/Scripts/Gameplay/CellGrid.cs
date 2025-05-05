@@ -68,6 +68,9 @@ public class CellGrid : MonoBehaviour
                 case DraggableType.GridWeapon:
                     OnGridWeaponPlaced();
                     break;
+                case DraggableType.Bouncer:
+                    OnBouncerPlaced();
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -93,6 +96,8 @@ public class CellGrid : MonoBehaviour
             case DraggableType.GridWeapon:
                 OnGridWeaponRemoved();
                 break;
+            case DraggableType.Bouncer:
+                
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -278,4 +283,18 @@ public class CellGrid : MonoBehaviour
         if(!isEnergized)
             ResetToDefaultColor();
     }
+    
+    
+    private void OnBouncerPlaced()
+    {
+        if(!isEnergized)
+            ChangeToOccupiedColor();
+    }
+
+    private void OnBouncerRemoved()
+    {
+        if(!isEnergized)
+            ResetToDefaultColor();
+    }
+    
 }
