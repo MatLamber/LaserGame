@@ -37,14 +37,13 @@ public class Laser : MonoBehaviour
     private bool isBeamEnabled;
     private List<ParticleSystem> endVfxps = new List<ParticleSystem>();
     private List<ParticleSystem> startVfxps = new List<ParticleSystem>();
-
+    private Connector lastConnectorHit;
     #endregion
 
 
     void Start()
     {
         FillLists();
-       // DisableLaser();
         primaryLineRenderer.positionCount = maxReflections + 1;
         secondaryLineRenderer.positionCount = maxReflections + 1;
     }
@@ -186,11 +185,28 @@ public class Laser : MonoBehaviour
                 // Si golpeamos un connector, actualizamos la bandera
                 if (isConnector)
                 {
+                    if (lastConnectorHit == null)
+                    {
+                        lastConnectorHit = hit.collider.gameObject.GetComponent<Connector>();
+                        lastConnectorHit.PlayOnHitFeedback();
+                    }
+
                     hitConnector = true;
-                    Debug.Log("hit connector");
                     // Detener el efecto visual del final cuando impacta con el connector
                     StopLaserEndVfx();
+
                 }
+                else
+                {
+                    if (lastConnectorHit != null)
+                    {
+                        Debug.Log($"Last Connector Disconnect: {lastConnectorHit.name}");
+                        lastConnectorHit.PlayOnIdleFeedback();
+                        lastConnectorHit = null;
+                    }
+                }
+
+
 
                 // Verificamos si el objeto golpeado está en una capa reflectiva
                 bool isReflective = ((1 << hit.collider.gameObject.layer) & reflectiveLayers.value) != 0;
@@ -221,6 +237,12 @@ public class Laser : MonoBehaviour
             {
                 // Si no golpeamos nada, el rayo se extiende hasta su máxima distancia
                 laserPositions.Add(currentPos + (currentDir * maxRayDistance));
+                if (lastConnectorHit != null)
+                {
+                    Debug.Log($"Last Connector Disconnect: {lastConnectorHit.name}");
+                    lastConnectorHit.PlayOnIdleFeedback();
+                    lastConnectorHit = null;
+                }
                 break;
             }
         }
